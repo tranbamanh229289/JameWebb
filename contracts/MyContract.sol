@@ -7,7 +7,7 @@ import "contracts/MyToken.sol";
 contract MyContract is ERC20 {
     address public aMyToken;
     string public uri;
-    uint256 public PRICE_TOKEN = 1000 * decimals();
+    uint256 public PRICE_TOKEN = 1000 * 10**decimals();
     constructor(address _atoken) ERC20("MyToken", "MTK") {
         _mint(msg.sender, 100000000 * 10 ** decimals());
         aMyToken = _atoken;
