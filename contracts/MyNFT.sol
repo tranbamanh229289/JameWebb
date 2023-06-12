@@ -4,19 +4,22 @@ pragma solidity 0.8.14;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyToken is ERC721, ERC721URIStorage {
+contract MyNFT is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("MyNFT", "MNFT") {}
+    constructor() ERC721("MyNFT", "MNFT") {
+    }
 
     function _baseURI() internal pure override returns (string memory) {
         return "ipfs://";
     }
 
-    function safeMint(address to, string memory uri) public {
+    function safeMint(address to, string calldata uri) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
@@ -25,7 +28,7 @@ contract MyToken is ERC721, ERC721URIStorage {
 
     // The following functions are overrides required by Solidity.
 
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId) internal onlyOwner override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 
