@@ -12,8 +12,8 @@ contract MyNFT is ERC721, ERC721URIStorage {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
     mapping(address => bool) public role;
-    modifier access() {
-        require(role[msg.sender] == true, "sender haven't access");
+    modifier access(address rolable) {
+        require(role[rolable] == true, "sender haven't access");
         _;
     }
 
@@ -25,7 +25,7 @@ contract MyNFT is ERC721, ERC721URIStorage {
         return "ipfs://";
     }
 
-    function safeMint(address to, string calldata uri) public access {
+    function safeMint(address to, string calldata uri) public access(to) {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
@@ -34,7 +34,7 @@ contract MyNFT is ERC721, ERC721URIStorage {
 
     // The following functions are overrides required by Solidity.
 
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) access {
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 

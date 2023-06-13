@@ -8,17 +8,11 @@ import "contracts/MyTokenERC20.sol";
 contract Purchase {
     address public aNFT;
     address public aERC20;
-    string public uriNFT;
     uint256 public PRICE_TOKEN = 1;
 
     constructor(address _aERC20, address _aNFT) {
         aERC20 = _aERC20;
         aNFT = _aNFT;
-    }
-
-    function getTotal() external view returns(uint256) {
-        MyTokenERC20 erc20 = MyTokenERC20(aERC20);  
-        erc20.balanceOf(aERC20);
     }
 
     function buyNFT(string memory _uri) public {
