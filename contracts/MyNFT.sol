@@ -13,7 +13,7 @@ contract MyNFT is ERC721, ERC721URIStorage {
     Counters.Counter private _tokenIdCounter;
     mapping(address => bool) public role;
     modifier access() {
-        require(role[msg.sender] = true, "sender haven't access");
+        require(role[msg.sender] == true, "sender haven't access");
         _;
     }
 
