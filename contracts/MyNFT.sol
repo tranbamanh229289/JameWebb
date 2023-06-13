@@ -6,19 +6,19 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 
-contract MyNFT is ERC721, ERC721URIStorage, Ownable {
+contract MyNFT is ERC721, ERC721URIStorage {
     using Counters for Counters.Counter;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
-    mapping(address => bool) role;
+    mapping(address => bool) public role;
     modifier access() {
         require(role[msg.sender] = true, "sender haven't access");
         _;
     }
 
-    constructor(address _roleable) ERC721("MyNFT", "MNFT") {
-        role[_roleable] = true;
+    constructor() ERC721("MyNFT", "MNFT") {
+        role[msg.sender] = true;
     }
 
     function _baseURI() internal pure override returns (string memory) {
